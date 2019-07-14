@@ -1,0 +1,87 @@
+
+
+<style>
+  .item{
+    background-color: rgb(231, 228, 17);
+     width: 500px;
+  }
+  .containernew{
+ 
+    width: 500px;
+    height: 60px;
+    float: right;
+  }
+  #h3{
+    background-color: goldenrod;
+  }
+</style>
+
+    
+     {{#each burgers}}
+  <p class="item" id={{this.id}}>
+   {{this.id}} {{this.burger_name}}<button type="submit" class="devoured" data-id={{this.id}} name={{this.burger_name}}>Devour It!! </button><br>
+  
+</p>
+  
+    {{/each}}
+
+
+
+
+
+
+
+
+
+
+
+<h2>Enter Your Fav Burger</h2>
+<h4>example:Bacon-cheese-burger</h2>
+<div class="container">
+<form id="addburger">
+
+  
+    <label for="burger">Burger Name:</label>
+    <input type="text" id="burger" name="burger">
+  
+
+  <button type="submit">Add </button>
+</form>
+</div>
+<script type="text/javascript">
+$("#addburger").on("submit",function(event){
+  event.preventDefault();
+  var newburger={
+    burger:$("#burger").val().trim()
+
+  };
+  console.log($("#burger").val());
+  $.ajax("/burger",{
+    type:"POST",
+    data:newburger
+  }).then(function(){
+          console.log("inserted");
+        });
+        location.reload();
+    });
+
+
+
+$(".devoured").click(function () {
+  var name=$(this).attr("name").trim(); 
+  var id= $(this).data('id')
+  $(".container").append('<br><div class="containernew"><h3 id="h3">'+id+"."+name+'</h3><br><br></div>');
+  $("p:contains("+id+")").hide();
+  
+   console.log($(this).data('id'));      
+     
+        
+});
+
+
+
+</script>
+
+
+
+
